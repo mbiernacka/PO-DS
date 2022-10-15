@@ -15,10 +15,4 @@ public class Vector2d {
         return "(%d, %d)".formatted(x,y);
     }
 
-   /* public Vector2d add(Vector2d other){
-       // return new Vector2d(x:x + other.x, y:y + other.y)
-    }*/
-
-    //test comment
-
 }
