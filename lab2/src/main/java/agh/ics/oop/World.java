@@ -3,12 +3,20 @@ package agh.ics.oop;
 public class World {
     public static void main(String[] args){
 
-        Direction[] directions = new Direction[args.length]; //creates empty array of given directions
+       /* Direction[] directions = new Direction[args.length]; //creates empty array of given directions
         directions = convertStringsToEnums(args);   //assigns values converted from string array to our main enum array
 
         System.out.println("System wystartował");
         run(directions);
-        System.out.println("System zakończył działanie");
+        System.out.println("System zakończył działanie");*/
+
+        //code for lab2
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(1,2);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
+        System.out.println(position1.equals(position2));
     }
 
     //method that tells in what way the animal moves
