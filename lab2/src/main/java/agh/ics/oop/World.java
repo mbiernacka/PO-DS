@@ -17,6 +17,11 @@ public class World {
         System.out.println(position2);
         System.out.println(position1.add(position2));
         System.out.println(position1.equals(position2));
+
+        System.out.println(MapDirection.EAST.toString());
+        System.out.println(MapDirection.WEST.next());
+        System.out.println(MapDirection.NORTH.previous());
+        System.out.println(MapDirection.SOUTH.toUnitVector());
     }
 
     //method that tells in what way the animal moves
