@@ -3,12 +3,12 @@ package agh.ics.oop;
 public class World {
     public static void main(String[] args){
 
-       /* Direction[] directions = new Direction[args.length]; //creates empty array of given directions
+        MoveDirection[] directions = new MoveDirection[args.length]; //creates empty array of given directions
         directions = convertStringsToEnums(args);   //assigns values converted from string array to our main enum array
 
         System.out.println("System wystartował");
         run(directions);
-        System.out.println("System zakończył działanie");*/
+        System.out.println("System zakończył działanie");
 
         //code for lab2
         Vector2d position1 = new Vector2d(1,2);
@@ -22,10 +22,21 @@ public class World {
         System.out.println(MapDirection.WEST.next());
         System.out.println(MapDirection.NORTH.previous());
         System.out.println(MapDirection.SOUTH.toUnitVector());
+
+        Animal animal1 = new Animal();
+        System.out.println(animal1.toString());
+        animal1.move(MoveDirection.RIGHT);
+        //System.out.println(animal1.toString());
+        animal1.move(MoveDirection.FORWARD);
+        //System.out.println(animal1.toString());
+        animal1.move(MoveDirection.FORWARD);
+        //System.out.println(animal1.toString());
+        animal1.move(MoveDirection.FORWARD);
+        System.out.println(animal1.toString());
     }
 
     //method that tells in what way the animal moves
-    public static void run(Direction[] directions){
+    public static void run(MoveDirection[] directions){
         //prints entered moves
         /*for(int i=0; i <= directions.length-1; i++){
             System.out.print(directions[i]);
@@ -37,7 +48,7 @@ public class World {
         System.out.println();
         System.out.println("Start");
 
-       for (Direction direction: directions){
+       for (MoveDirection direction: directions){
             String text = switch (direction){
                 case FORWARD -> "Zwierzak idzie do przodu";
                 case BACKWARD -> "Zwierzak idzie do tyłu";
@@ -54,16 +65,15 @@ public class World {
     }
 
     //method that converts array of strings to array of enums of type Direction
-    public static Direction[] convertStringsToEnums (String[] args) {
+    public static MoveDirection[] convertStringsToEnums (String[] args) {
         int arrLength = args.length;
-        Direction[] directions = new Direction[arrLength];
+        MoveDirection[] directions = new MoveDirection[arrLength];
         for(int i =0; i<=arrLength-1; i++){
             switch (args[i]){
-                case "f" -> directions[i] = Direction.FORWARD;
-                case "b" -> directions[i] = Direction.BACKWARD;
-                case "l" -> directions[i] = Direction.LEFT;
-                case "r" -> directions[i] = Direction.RIGHT;
-                default -> directions[i] = Direction.IGNORE;
+                case "f" -> directions[i] = MoveDirection.FORWARD;
+                case "b" -> directions[i] = MoveDirection.BACKWARD;
+                case "l" -> directions[i] = MoveDirection.LEFT;
+                case "r" -> directions[i] = MoveDirection.RIGHT;
             }
         }
         return directions;

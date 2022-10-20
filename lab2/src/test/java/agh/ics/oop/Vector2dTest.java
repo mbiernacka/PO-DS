@@ -4,19 +4,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Vector2dTest {
 
+    //fajną praktyką jest układanie kontentu testu na częsci: given, when, then
+
     //equals() tests
     @Test
     void objectAreEqual(){
         Vector2d vector1 = new Vector2d(3,7);
         Vector2d vector2 = new Vector2d(3,7);
-        assertTrue(vector1.equals(vector2));
+        assertEquals(vector1, vector2);
     }
 
     @Test
     void objectAreNotEqual(){
         Vector2d vector1 = new Vector2d(7,7);
         Vector2d vector2 = new Vector2d(4,1);
-        assertFalse(vector1.equals(vector2));
+        assertNotEquals(vector1, vector2);
     }
 
     //toString() test
@@ -73,7 +75,7 @@ class Vector2dTest {
         assertEquals(new Vector2d(1,7), vector1.lowerLeft(vector2));
     }
 
-    //add() tets
+    //add() test
     @Test
     void vectors3And5Plus4and9Equals7And14Vector(){
         Vector2d vector1 = new Vector2d(3,5);
