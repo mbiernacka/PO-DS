@@ -35,6 +35,7 @@ public class OptionsParser {
     }*/
 
     ///////////////////////////////
+    // but this works?
     public static MoveDirection[] parse(String[] directions){
         //calculate how many elements of str tab are correct commands
         int size = 0;
