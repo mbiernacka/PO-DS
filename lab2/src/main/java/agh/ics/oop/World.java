@@ -84,3 +84,9 @@ public class World {
     }
 
 }
+
+/* Odp na pytanie w zad 10 (bardzo ogólnie)
+ Może odpowiednim rozwiązaniem byłoby zaimplementowanie klasy Mapa, która miałaby oznaczone pola dostępne na niej.
+ W momencie, gdy zwierzę pojawiałoby się na danym polu zmieniałby się jego status na zajęty.
+ Wtedy kolejne zwierzę przed zmienieniem swojej pozycji na inną sprawdzałoby inną metodą czy dane miejsce jest już zajęte.
+ */
