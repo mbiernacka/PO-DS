@@ -3,12 +3,12 @@ package agh.ics.oop;
 public class World {
     public static void main(String[] args){
 
-       /* Direction[] directions = new Direction[args.length]; //creates empty array of given directions
+        /*MoveDirection[] directions; //creates empty array of given directions
         directions = convertStringsToEnums(args);   //assigns values converted from string array to our main enum array
 
         System.out.println("System wystartował");
         run(directions);
-        System.out.println("System zakończył działanie");*/
+        System.out.println("System zakończył działanie");
 
         //code for lab2
         Vector2d position1 = new Vector2d(1,2);
@@ -21,11 +21,26 @@ public class World {
         System.out.println(MapDirection.EAST.toString());
         System.out.println(MapDirection.WEST.next());
         System.out.println(MapDirection.NORTH.previous());
-        System.out.println(MapDirection.SOUTH.toUnitVector());
+        System.out.println(MapDirection.SOUTH.toUnitVector());*/
+
+        //code for lab3
+        Animal animal1 = new Animal();
+        System.out.println(animal1.toString());
+        animal1.move(MoveDirection.RIGHT);
+        animal1.move(MoveDirection.FORWARD);
+        animal1.move(MoveDirection.FORWARD);
+        animal1.move(MoveDirection.FORWARD);
+        System.out.println(animal1.toString());
+
+        MoveDirection[] directions = OptionsParser.parse(args);
+        for(int i = 0; i <= directions.length -1; i++){
+            animal1.move(directions[i]);
+        }
+        System.out.println(animal1.toString());
     }
 
     //method that tells in what way the animal moves
-    public static void run(Direction[] directions){
+    public static void run(MoveDirection[] directions){
         //prints entered moves
         /*for(int i=0; i <= directions.length-1; i++){
             System.out.print(directions[i]);
@@ -37,7 +52,7 @@ public class World {
         System.out.println();
         System.out.println("Start");
 
-       for (Direction direction: directions){
+       for (MoveDirection direction: directions){
             String text = switch (direction){
                 case FORWARD -> "Zwierzak idzie do przodu";
                 case BACKWARD -> "Zwierzak idzie do tyłu";
@@ -54,19 +69,24 @@ public class World {
     }
 
     //method that converts array of strings to array of enums of type Direction
-    public static Direction[] convertStringsToEnums (String[] args) {
+    public static MoveDirection[] convertStringsToEnums (String[] args) {
         int arrLength = args.length;
-        Direction[] directions = new Direction[arrLength];
+        MoveDirection[] directions = new MoveDirection[arrLength];
         for(int i =0; i<=arrLength-1; i++){
             switch (args[i]){
-                case "f" -> directions[i] = Direction.FORWARD;
-                case "b" -> directions[i] = Direction.BACKWARD;
-                case "l" -> directions[i] = Direction.LEFT;
-                case "r" -> directions[i] = Direction.RIGHT;
-                default -> directions[i] = Direction.IGNORE;
+                case "f" -> directions[i] = MoveDirection.FORWARD;
+                case "b" -> directions[i] = MoveDirection.BACKWARD;
+                case "l" -> directions[i] = MoveDirection.LEFT;
+                case "r" -> directions[i] = MoveDirection.RIGHT;
             }
         }
         return directions;
     }
 
 }
+
+/* Odp na pytanie w zad 10 (bardzo ogólnie)
+ Może odpowiednim rozwiązaniem byłoby zaimplementowanie klasy Mapa, która miałaby oznaczone pola dostępne na niej.
+ W momencie, gdy zwierzę pojawiałoby się na danym polu zmieniałby się jego status na zajęty.
+ Wtedy kolejne zwierzę przed zmienieniem swojej pozycji na inną sprawdzałoby inną metodą czy dane miejsce jest już zajęte.
+ */
