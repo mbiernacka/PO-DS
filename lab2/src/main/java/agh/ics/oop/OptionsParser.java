@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import java.util.stream.Stream;
+
 public class OptionsParser {
 
     // why does this not work? :(
@@ -37,6 +39,7 @@ public class OptionsParser {
     ///////////////////////////////
     // but this works?
     public static MoveDirection[] parse(String[] directions){
+
         //calculate how many elements of str tab are correct commands
         int size = 0;
         for (String direction: directions){
@@ -65,5 +68,19 @@ public class OptionsParser {
             i++;
         }
         return moves;
+
+
+        /*
+        //STREAMY - NAUCZYĆ SIĘ
+
+        return Stream.of(directions).map(instruction -> switch (instruction.toLowerCase()) {
+            case "f", "forward" -> MoveDirection.FORWARD;
+            case "b", "backward" ->  MoveDirection.BACKWARD;
+            case "r", "right" ->   MoveDirection.RIGHT;
+            case "l", "left" -> MoveDirection.LEFT;
+            default -> null;
+        }).filter(moveDirection -> moveDirection != null).toArray(MoveDirection[]::new);
+         */
+
     }
 }
