@@ -8,11 +8,13 @@ public class RectangularMap implements IWorldMap {
     private final int width;
     private final int height;
     private final List<Animal> animalList;
+    private final MapVisualizer mapVisualizer;
 
     public RectangularMap(int width, int height){
         this.width = width;
         this.height = height;
         this.animalList = new ArrayList<>();
+        this.mapVisualizer = new MapVisualizer(this);
     }
 
     public boolean canMoveTo(Vector2d position){
@@ -41,4 +43,8 @@ public class RectangularMap implements IWorldMap {
         }
     return null;
     };
+
+    public String toString(){
+        return mapVisualizer.draw(new Vector2d(0,0), new Vector2d(this.width, this.height));
+    }
 }
