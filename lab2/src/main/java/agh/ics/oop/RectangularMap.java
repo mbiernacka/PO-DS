@@ -7,7 +7,7 @@ public class RectangularMap implements IWorldMap {
 
     private final int width;
     private final int height;
-    private final List<Animal> animalList;
+    public List<Animal> animalList;
     private final MapVisualizer mapVisualizer;
 
     public RectangularMap(int width, int height){
