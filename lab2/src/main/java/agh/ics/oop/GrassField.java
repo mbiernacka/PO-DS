@@ -2,25 +2,17 @@ package agh.ics.oop;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.lang.Math;
 
-public class GrassField implements IWorldMap{
+public class GrassField extends AbstractWorldMap implements IWorldMap{
 
     private int grassAmount;
-    private List<Animal> animalsList;
     private List<Grass> grassList;
-    private Vector2d lowerLeft;
-    private Vector2d upperRight;
-    private final MapVisualizer mapVisualizer;
-
 
 
     public GrassField(int grassAmount){
         this.grassAmount = grassAmount;
-        this.animalsList = new ArrayList<>();
         this.grassList = new ArrayList<>();
-        this.mapVisualizer = new MapVisualizer(this);
         this.lowerLeft = null;
         this.upperRight = null;
 
@@ -57,7 +49,7 @@ public class GrassField implements IWorldMap{
     }
 
     public boolean canMoveTo(Vector2d position){
-        for (Animal animal: animalsList){
+        for (Animal animal: animalList){
             if (animal.getPosition().equals(position)){
                 return false;
             }
@@ -75,17 +67,10 @@ public class GrassField implements IWorldMap{
         return true;
     }
 
-    public boolean place(Animal animal){
-        if(!canMoveTo(animal.getPosition())){
-            return false;
-        }
-        animalsList.add(animal);
-        return true;
-    }
 
-    //ma zwracac dla zwierzeta i trawy, bo w rysowaniu sie go wykorzystuje
+    //ma zwracac dla zwierzecia i trawy, bo w rysowaniu sie go wykorzystuje
     public boolean isOccupied(Vector2d position) {
-        for (Animal animal: animalsList){
+        for (Animal animal: animalList){
             if (animal.getPosition().equals(position)){
                 return true;
             }
@@ -98,9 +83,9 @@ public class GrassField implements IWorldMap{
         return false;
     }
 
-    //ma zwracac dla zwierzeta i trawy, bo w rysowaniu sie go wykorzystuje
+    //ma zwracac dla zwierzecia i trawy, bo w rysowaniu sie go wykorzystuje
     public Object objectAt(Vector2d position){
-        for (Animal animal: animalsList){
+        for (Animal animal: animalList){
             Vector2d animalPosition = animal.getPosition();
 
             if (animalPosition.equals(position)){
@@ -114,7 +99,5 @@ public class GrassField implements IWorldMap{
         return null;
     };
 
-    public String toString(){
-        return mapVisualizer.draw(lowerLeft, upperRight);
-    }
+
 }
