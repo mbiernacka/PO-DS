@@ -54,14 +54,13 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
                 return false;
             }
         }
-
         for(Grass grass: grassList){
             if(grass.getPosition().equals(position)){
                 grassList.remove(grass);
+
                 break;
             }
         }
-
         this.lowerLeft = this.lowerLeft.lowerLeft(position);
         this.upperRight = this.upperRight.upperRight(position);
         return true;
@@ -85,19 +84,16 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
 
     //ma zwracac dla zwierzecia i trawy, bo w rysowaniu sie go wykorzystuje
     public Object objectAt(Vector2d position){
-        for (Animal animal: animalList){
-            Vector2d animalPosition = animal.getPosition();
-
-            if (animalPosition.equals(position)){
+        for (Animal animal: getAnimals()){
+            if (animal.getPosition().equals(position)){
                 return animal;
             }
         }
         for(Grass grass: grassList){
             if(grass.getPosition().equals(position)){
-                return grass;            }
+                return grass;
+            }
         }
         return null;
     };
-
-
 }

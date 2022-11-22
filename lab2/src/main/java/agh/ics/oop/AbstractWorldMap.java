@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -26,6 +27,10 @@ public abstract class AbstractWorldMap implements IWorldMap {
 
     public String toString(){
         return mapVisualizer.draw(lowerLeft, upperRight);
+    }
+
+    public List<Animal> getAnimals(){
+        return Collections.unmodifiableList(animalList);
     }
 
 }
