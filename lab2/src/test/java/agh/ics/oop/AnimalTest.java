@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AnimalTest {
-
+    /*
     @Test
     void OrientationTest(){
         Animal animal1 = new Animal();
@@ -30,5 +30,5 @@ public class AnimalTest {
         animal3.move(MoveDirection.FORWARD);
         animal3.move(MoveDirection.FORWARD);
         assertTrue(animal3.getPosition().precedes(new Vector2d(4,4)));
-    }
+    }*/
 }

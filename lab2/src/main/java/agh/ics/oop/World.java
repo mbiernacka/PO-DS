@@ -1,6 +1,8 @@
 package agh.ics.oop;
 
 public class World {
+     static final Vector2d LOWER_BOUND = new Vector2d(0,0);
+     static final Vector2d UPPER_BOUND = new Vector2d(4,4);
     public static void main(String[] args){
 
         /*MoveDirection[] directions; //creates empty array of given directions
@@ -21,7 +23,7 @@ public class World {
         System.out.println(MapDirection.EAST.toString());
         System.out.println(MapDirection.WEST.next());
         System.out.println(MapDirection.NORTH.previous());
-        System.out.println(MapDirection.SOUTH.toUnitVector());*/
+        System.out.println(MapDirection.SOUTH.toUnitVector());
 
         //code for lab3
         Animal animal1 = new Animal();
@@ -36,7 +38,14 @@ public class World {
         for(int i = 0; i <= directions.length -1; i++){
             animal1.move(directions[i]);
         }
-        System.out.println(animal1.toString());
+        System.out.println(animal1.toString());*/
+
+        //code for lab4
+        MoveDirection[] directions = new OptionsParser().parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
     }
 
     //method that tells in what way the animal moves
