@@ -6,31 +6,21 @@ import java.lang.Math;
 
 public class GrassField extends AbstractWorldMap implements IWorldMap{
 
-    private int grassAmount;
     private List<Grass> grassList;
 
-
     public GrassField(int grassAmount){
-        this.grassAmount = grassAmount;
         this.grassList = new ArrayList<>();
-        this.lowerLeft = null;
-        this.upperRight = null;
 
         int min = 0;
-        int max = (int)(Math.sqrt(10*this.grassAmount));
+        int max = (int)(Math.sqrt(10*grassAmount));
 
-        for (int i = 0; i < this.grassAmount; i++){
+        for (int i = 0; i < grassAmount; i++){
 
+            //zamiast losowania zrobic liste pozycji (0,0),(1,0)..(n,n) i collections.shuffle i wybrac np x pierwszych
+            //tak jest lepiej, bo z randomem jest niedeterministyczny
             int x = (int) ((Math.random() * (max - min + 1)) + min);
             int y = (int) ((Math.random() * (max - min + 1)) + min);
             Vector2d newGrassPosition = new Vector2d(x,y);
-
-            if(this.lowerLeft == null){
-                this.lowerLeft = newGrassPosition;
-            }
-            if(this.upperRight == null){
-                this.upperRight = newGrassPosition;
-            }
 
             int repeats = 0;
             for(Grass grass: grassList){
@@ -39,61 +29,56 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
                     repeats++;
                 }
             }
-
             if(repeats == 0){
                 grassList.add(new Grass(newGrassPosition));
-                this.lowerLeft = this.lowerLeft.lowerLeft(newGrassPosition);
-                this.upperRight = this.upperRight.upperRight(newGrassPosition);
             }
         }
     }
 
     public boolean canMoveTo(Vector2d position){
-        for (Animal animal: animalList){
-            if (animal.getPosition().equals(position)){
-                return false;
-            }
-        }
-        for(Grass grass: grassList){
-            if(grass.getPosition().equals(position)){
-                grassList.remove(grass);
-
-                break;
-            }
-        }
-        this.lowerLeft = this.lowerLeft.lowerLeft(position);
-        this.upperRight = this.upperRight.upperRight(position);
-        return true;
+        Object obj = this.objectAt(position);
+        return obj == null || obj instanceof Grass;
     }
 
-
-    //ma zwracac dla zwierzecia i trawy, bo w rysowaniu sie go wykorzystuje
-    public boolean isOccupied(Vector2d position) {
-        for (Animal animal: animalList){
-            if (animal.getPosition().equals(position)){
-                return true;
-            }
-        }
-        for(Grass grass: grassList){
-            if (grass.getPosition().equals(position)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //ma zwracac dla zwierzecia i trawy, bo w rysowaniu sie go wykorzystuje
+    @Override
     public Object objectAt(Vector2d position){
-        for (Animal animal: getAnimals()){
-            if (animal.getPosition().equals(position)){
-                return animal;
+        Object obj = super.objectAt(position);
+        if (obj == null) {
+            for (Grass grass : grassList) {
+                if (grass.getPosition().equals(position)) {
+                    return grass;
+                }
             }
         }
-        for(Grass grass: grassList){
-            if(grass.getPosition().equals(position)){
-                return grass;
-            }
-        }
-        return null;
+        return obj;
     };
+
+    @Override
+    protected Vector2d calculateLowerBound(){
+        Vector2d lowerBound = grassList.get(0).getPosition();
+
+        for (Animal animal: animalList){
+            lowerBound = lowerBound.lowerLeft(animal.getPosition());
+        }
+
+        for (Grass grass: grassList){
+            lowerBound = lowerBound.lowerLeft(grass.getPosition());
+        }
+
+        return lowerBound;
+    }
+
+    @Override
+    protected Vector2d calculateUpperBound(){
+        Vector2d upperBound = grassList.get(0).getPosition();
+        for (Animal animal: animalList){
+            upperBound = upperBound.upperRight(animal.getPosition());
+        }
+
+        for (Grass grass: grassList){
+            upperBound = upperBound.upperRight(grass.getPosition());
+        }
+
+        return upperBound;
+    }
 }

@@ -8,9 +8,6 @@ import java.util.Vector;
 public abstract class AbstractWorldMap implements IWorldMap {
     protected List<Animal> animalList;
     protected final MapVisualizer mapVisualizer;
-    protected Vector2d lowerLeft;
-    protected Vector2d upperRight;
-
 
     protected AbstractWorldMap(){
         this. animalList = new ArrayList<>();
@@ -26,12 +23,24 @@ public abstract class AbstractWorldMap implements IWorldMap {
     }
 
     public String toString(){
-        return mapVisualizer.draw(lowerLeft, upperRight);
+        return mapVisualizer.draw(calculateLowerBound(), calculateUpperBound());
     }
 
     public List<Animal> getAnimals(){
         return Collections.unmodifiableList(animalList);
     }
+
+    public Object objectAt(Vector2d position){
+        for (Animal animal: getAnimals()){
+            if (animal.getPosition().equals(position)){
+                return animal;
+            }
+        }
+        return null;
+    }
+
+    protected abstract Vector2d calculateLowerBound();
+    protected abstract Vector2d calculateUpperBound();
 
 }
 

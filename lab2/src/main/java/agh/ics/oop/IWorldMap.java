@@ -43,11 +43,11 @@ public interface IWorldMap {
      *            Position to check.
      * @return True if the position is occupied.
      */
-     boolean isOccupied(Vector2d position);
-        /*return objectAt(position) != null;
+     default boolean isOccupied(Vector2d position){
+        return objectAt(position) != null;
         //streamy
         //return animalList.stream().anyMatch(animal -> animal.isAt(position));
-    }*/
+    }
 
     /**
      * Return an object at a given position.
