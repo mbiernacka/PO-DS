@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
-public class RectangularMap extends AbstractWorldMap implements IWorldMap {
+public class RectangularMap extends AbstractWorldMap implements IPositionChangeObserver {
 
     private final int width;
     private final int height;
@@ -15,12 +15,12 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap {
     public RectangularMap(int width, int height){
         this.width = width;
         this.height = height;
-        lowerBound = new Vector2d(width-1,height-1);
-        upperBound = new Vector2d(0,0);
+        upperBound = new Vector2d(width-1,height-1);
+        lowerBound = new Vector2d(0,0);
     }
 
     public boolean canMoveTo(Vector2d position){
-        if(position.follows(lowerBound) && position.precedes(upperBound) && (isOccupied(position) == false)){
+        if(position.follows(lowerBound) && position.precedes(upperBound) && (isOccupied(position)==false)){
             return true;
         };
         return false;
@@ -32,24 +32,13 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap {
         //return animalList.stream().anyMatch(animal -> animal.isAt(position));
     }
 
-
-    //tego użyć zamiast powtarzać dwóch takich samych list zwierząt
-    public List<Animal> getAnimals(){
-        //return List.copyOf(animalList);
-        //alternatywnie, ale to lepiej:
-        return Collections.unmodifiableList(animalList);
-    }
-
     @Override
     protected Vector2d calculateLowerBound() {
          return this.lowerBound;
-
     }
 
     @Override
     protected Vector2d calculateUpperBound() {
         return this.upperBound;
-
     }
-
 }

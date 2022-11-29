@@ -3,14 +3,17 @@ package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.Math;
+import java.util.HashMap;
+import java.util.Map;
 
-public class GrassField extends AbstractWorldMap implements IWorldMap{
+public class GrassField extends AbstractWorldMap implements IPositionChangeObserver{
 
-    private List<Grass> grassList;
+    //private List<Grass> grassList;
+    private HashMap<Vector2d, Grass> grassMap;
 
     public GrassField(int grassAmount){
-        this.grassList = new ArrayList<>();
-
+        //this.grassList = new ArrayList<>();
+        this.grassMap = new HashMap<>();
         int min = 0;
         int max = (int)(Math.sqrt(10*grassAmount));
 
@@ -23,18 +26,17 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
             Vector2d newGrassPosition = new Vector2d(x,y);
 
             int repeats = 0;
-            for(Grass grass: grassList){
-                if(grass.getPosition().equals(newGrassPosition)) {
+            if(this.grassMap.containsKey(newGrassPosition)){
                     i--;
                     repeats++;
                 }
-            }
             if(repeats == 0){
-                grassList.add(new Grass(newGrassPosition));
+                grassMap.put(newGrassPosition, new Grass(newGrassPosition));
             }
         }
     }
 
+    @Override
     public boolean canMoveTo(Vector2d position){
         Object obj = this.objectAt(position);
         return obj == null || obj instanceof Grass;
@@ -43,26 +45,23 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
     @Override
     public Object objectAt(Vector2d position){
         Object obj = super.objectAt(position);
-        if (obj == null) {
-            for (Grass grass : grassList) {
-                if (grass.getPosition().equals(position)) {
-                    return grass;
-                }
-            }
+        if (obj instanceof Animal) {
+            return obj;
         }
-        return obj;
+        return grassMap.getOrDefault(position, null);
+
     };
 
     @Override
     protected Vector2d calculateLowerBound(){
-        Vector2d lowerBound = grassList.get(0).getPosition();
-
-        for (Animal animal: animalList){
-            lowerBound = lowerBound.lowerLeft(animal.getPosition());
+        //Vector2d lowerBound = grassMap.get(0).getPosition();
+        Vector2d lowerBound = grassMap.get(grassMap.keySet().toArray()[0]).getPosition();
+        for (Vector2d position: animalMap.keySet()){
+            lowerBound = lowerBound.lowerLeft(position);
         }
 
-        for (Grass grass: grassList){
-            lowerBound = lowerBound.lowerLeft(grass.getPosition());
+        for (Vector2d position: grassMap.keySet()){
+            lowerBound = lowerBound.lowerLeft(position);
         }
 
         return lowerBound;
@@ -70,15 +69,15 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
 
     @Override
     protected Vector2d calculateUpperBound(){
-        Vector2d upperBound = grassList.get(0).getPosition();
-        for (Animal animal: animalList){
-            upperBound = upperBound.upperRight(animal.getPosition());
+        Vector2d upperBound = grassMap.get(grassMap.keySet().toArray()[0]).getPosition();
+
+        for (Vector2d position: animalMap.keySet()){
+            upperBound = upperBound.upperRight(position);
         }
 
-        for (Grass grass: grassList){
-            upperBound = upperBound.upperRight(grass.getPosition());
+        for (Vector2d position: grassMap.keySet()){
+            upperBound = upperBound.upperRight(position);
         }
-
         return upperBound;
     }
 }

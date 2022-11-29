@@ -45,8 +45,6 @@ public interface IWorldMap {
      */
      default boolean isOccupied(Vector2d position){
         return objectAt(position) != null;
-        //streamy
-        //return animalList.stream().anyMatch(animal -> animal.isAt(position));
     }
 
     /**
@@ -57,5 +55,4 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
-
 }
