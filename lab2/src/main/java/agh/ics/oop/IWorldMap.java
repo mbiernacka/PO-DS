@@ -1,5 +1,9 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * The interface responsible for interacting with the map of the world.
  * Assumes that Vector2d and MoveDirection classes are defined.
@@ -7,7 +11,11 @@ package agh.ics.oop;
  * @author apohllo
  *
  */
+
+
 public interface IWorldMap {
+
+
     /**
      * Indicate if any object can move to the given position.
      *
@@ -35,7 +43,11 @@ public interface IWorldMap {
      *            Position to check.
      * @return True if the position is occupied.
      */
-    boolean isOccupied(Vector2d position);
+     boolean isOccupied(Vector2d position);
+        /*return objectAt(position) != null;
+        //streamy
+        //return animalList.stream().anyMatch(animal -> animal.isAt(position));
+    }*/
 
     /**
      * Return an object at a given position.
@@ -45,4 +57,5 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
+
 }

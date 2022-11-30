@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class Animal {
 
-    private MapDirection orientation;// =  MapDirection.NORTH;
-    private Vector2d position;// = new Vector2d(2,2);
+    private MapDirection orientation;
+    private Vector2d position;
     private IWorldMap map;
     public Animal (IWorldMap map){
-        this.map = map;
+        this(map, new Vector2d(2,2));
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition){
