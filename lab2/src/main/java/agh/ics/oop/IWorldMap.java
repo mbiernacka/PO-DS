@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 
-public interface IWorldMap {
+public interface IWorldMap extends IPositionChangeObserver {
 
 
     /**

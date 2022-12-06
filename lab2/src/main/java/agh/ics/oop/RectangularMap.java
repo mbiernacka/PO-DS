@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
-public class RectangularMap extends AbstractWorldMap implements IPositionChangeObserver {
+public class RectangularMap extends AbstractWorldMap {
 
     private final int width;
     private final int height;
@@ -33,12 +33,12 @@ public class RectangularMap extends AbstractWorldMap implements IPositionChangeO
     }
 
     @Override
-    protected Vector2d calculateLowerBound() {
+    public Vector2d calculateLowerBound() {
          return this.lowerBound;
     }
 
     @Override
-    protected Vector2d calculateUpperBound() {
+    public Vector2d calculateUpperBound() {
         return this.upperBound;
     }
 }

@@ -21,7 +21,7 @@ public class OptionsParserTest {
     @Test
     void ParseWrongValueTest(){
         String[] args = {"f","a", "Right", "L", "skjd"};
-        MoveDirection[] expected = {MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.LEFT};
-        assertArrayEquals(expected, OptionsParser.parse(args));
+        Exception ex = assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(args));
+        assertTrue(ex.getMessage().contains("is not legal move specification"));
     }
 }

@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import javafx.scene.layout.GridPane;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -10,10 +12,12 @@ public class SimulationEngine implements IEngine{
 
     private final MoveDirection[] moves;
     private final AbstractWorldMap map;
+    //private final GridPane gridPane;
 
     public SimulationEngine(MoveDirection[] moves, AbstractWorldMap map, Vector2d[] animalsFirstPositions){
         this.moves = moves;
         this.map = map;
+        //this.gridPane = gridPane;
         for (Vector2d vector: animalsFirstPositions){
             Animal animal = new Animal(this.map, vector);
             if(this.map.place(animal)){

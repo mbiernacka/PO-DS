@@ -38,7 +38,7 @@ public class OptionsParser {
 
     ///////////////////////////////
     // but this works?
-    public static MoveDirection[] parse(String[] directions){
+    public static MoveDirection[] parse(String[] directions) throws IllegalArgumentException{
 
         //calculate how many elements of str tab are correct commands
         int size = 0;
@@ -48,6 +48,8 @@ public class OptionsParser {
                 size++;
             } else if (direction.equals("forward") | direction.equals("backward") | direction.equals("right") | direction.equals("left")){
                 size++;
+            } else {
+                throw new IllegalArgumentException(direction + " is not legal move specification");
             }
         }
 

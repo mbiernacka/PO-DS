@@ -20,7 +20,7 @@ public class Animal implements Comparable<Animal> {
         this.position = initialPosition;
         this.map = map;
         this.observerList = new ArrayList<>();
-        this.addObserver((IPositionChangeObserver) map);
+        //this.addObserver(map);
     }
 
 
@@ -81,7 +81,7 @@ public class Animal implements Comparable<Animal> {
         this.observerList.remove(observer);
     }
 
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+    private void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         for (IPositionChangeObserver observer: this.observerList){
             observer.positionChanged(oldPosition, newPosition);
         }
