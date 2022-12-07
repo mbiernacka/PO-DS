@@ -2,7 +2,7 @@ package agh.ics.oop;
 
 public class World {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         /*MoveDirection[] directions; //creates empty array of given directions
         directions = convertStringsToEnums(args);   //assigns values converted from string array to our main enum array
@@ -37,68 +37,70 @@ public class World {
         for(int i = 0; i <= directions.length -1; i++){
             animal1.move(directions[i]);
         }
-        System.out.println(animal1.toString());
+        System.out.println(animal1.toString());*/
+
 
         //code for lab4
-        MoveDirection[] directions = new OptionsParser().parse(args);
-        IWorldMap map = new RectangularMap( 5, 5);
-        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-        IEngine engine = new SimulationEngine(directions, map, positions);
-        engine.run();*/
+//        MoveDirection[] directions = new OptionsParser().parse(args);
+//        AbstractWorldMap map = new RectangularMap( 5, 5);
+//        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+//        SimulationEngine engine = new SimulationEngine(directions, map, positions);
+//        engine.run();
 
         //code for lab5
         MoveDirection[] directions = new OptionsParser().parse(args);
-        IWorldMap map = new GrassField(10);
-        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-        IEngine engine = new SimulationEngine(directions, map, positions);
+        AbstractWorldMap map = new GrassField(10);
+        Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
+        SimulationEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
     }
-
-    //method that tells in what way the animal moves
-    public static void run(MoveDirection[] directions){
-        //prints entered moves
-        /*for(int i=0; i <= directions.length-1; i++){
-            System.out.print(directions[i]);
-            if(i!= directions.length -1){
-                System.out.print(", ");
-            }
-        }*/
-
-        System.out.println();
-        System.out.println("Start");
-
-       for (MoveDirection direction: directions){
-            String text = switch (direction){
-                case FORWARD -> "Zwierzak idzie do przodu";
-                case BACKWARD -> "Zwierzak idzie do tyłu";
-                case LEFT -> "Zwierzak idzie w lewo";
-                case RIGHT -> "Zwierzak idzie w prawo";
-                default -> null;
-            };
-
-            if (text != null) {
-                System.out.println(text);
-            }
-        }
-        System.out.println("Stop");
-    }
-
-    //method that converts array of strings to array of enums of type Direction
-    public static MoveDirection[] convertStringsToEnums (String[] args) {
-        int arrLength = args.length;
-        MoveDirection[] directions = new MoveDirection[arrLength];
-        for(int i =0; i<=arrLength-1; i++){
-            switch (args[i]){
-                case "f" -> directions[i] = MoveDirection.FORWARD;
-                case "b" -> directions[i] = MoveDirection.BACKWARD;
-                case "l" -> directions[i] = MoveDirection.LEFT;
-                case "r" -> directions[i] = MoveDirection.RIGHT;
-            }
-        }
-        return directions;
-    }
-
 }
+    //method that tells in what way the animal moves
+//    public static void run(MoveDirection[] directions){
+//        //prints entered moves
+//        /*for(int i=0; i <= directions.length-1; i++){
+//            System.out.print(directions[i]);
+//            if(i!= directions.length -1){
+//                System.out.print(", ");
+//            }
+//        }*/
+//
+//        System.out.println();
+//        System.out.println("Start");
+//
+//       for (MoveDirection direction: directions){
+//            String text = switch (direction){
+//                case FORWARD -> "Zwierzak idzie do przodu";
+//                case BACKWARD -> "Zwierzak idzie do tyłu";
+//                case LEFT -> "Zwierzak idzie w lewo";
+//                case RIGHT -> "Zwierzak idzie w prawo";
+//                default -> null;
+//            };
+//
+//            if (text != null) {
+//                System.out.println(text);
+//            }
+//        }
+//        System.out.println("Stop");
+//    }
+//
+//    //method that converts array of strings to array of enums of type Direction
+//
+//    public static MoveDirection[] convertStringsToEnums (String[] args) {
+//        int arrLength = args.length;
+//        MoveDirection[] directions = new MoveDirection[arrLength];
+//        for(int i =0; i<=arrLength-1; i++){
+//            switch (args[i]){
+//                case "f" -> directions[i] = MoveDirection.FORWARD;
+//                case "b" -> directions[i] = MoveDirection.BACKWARD;
+//                case "l" -> directions[i] = MoveDirection.LEFT;
+//                case "r" -> directions[i] = MoveDirection.RIGHT;
+//            }
+//        }
+//        return directions;
+//    }
+//
+//}
 
 /* Odp na pytanie w zad 10 (bardzo ogólnie)
  Może odpowiednim rozwiązaniem byłoby zaimplementowanie klasy Mapa, która miałaby oznaczone pola dostępne na niej.
