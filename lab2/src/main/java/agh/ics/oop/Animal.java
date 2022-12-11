@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Animal implements Comparable<Animal> {
+public class Animal implements Comparable<Animal>, IMapElement {
 
     private MapDirection orientation;
     private Vector2d position;
@@ -90,5 +90,18 @@ public class Animal implements Comparable<Animal> {
     @Override
     public int compareTo(Animal animal){
         return this.order - animal.getOrder();
+    }
+
+    public String getTexture(){
+        return switch (this.orientation){
+            case NORTH -> "src/main/resources/Cat_north.png";
+            case EAST -> "src/main/resources/Cat_west.png";
+            case SOUTH -> "src/main/resources/Cat_south.png";
+            case WEST -> "src/main/resources/Cat_east.png";
+        };
+    }
+
+    public String getLabel() {
+        return "Cat" + this.position.toString();
     }
 }

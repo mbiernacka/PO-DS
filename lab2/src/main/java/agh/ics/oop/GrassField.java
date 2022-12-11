@@ -83,9 +83,14 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public boolean place(Animal animal){
+    public void place(Animal animal){
         super.place(animal);
         mapBoundary.place(animal.getPosition());
-        return true;
+    }
+
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+        super.positionChanged(oldPosition, newPosition);
+        this.mapBoundary.positionChanged(oldPosition,newPosition);
     }
 }

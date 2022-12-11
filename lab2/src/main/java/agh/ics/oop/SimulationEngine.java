@@ -20,8 +20,7 @@ public class SimulationEngine implements IEngine{
         //this.gridPane = gridPane;
         for (Vector2d vector: animalsFirstPositions){
             Animal animal = new Animal(this.map, vector);
-            if(this.map.place(animal)){
-            }
+            this.map.place(animal);
         }
     }
 
@@ -50,6 +49,14 @@ public class SimulationEngine implements IEngine{
                 set.getValue().move(moves[i]);
                 System.out.println(this.map);
                 i++;
+
+                //to niekoniecznie chyba musi byc tu
+//                try {
+//                    Thread.sleep(300);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                System.out.println(map);
                 if (i == moves.length) { break;}
             }
         }
