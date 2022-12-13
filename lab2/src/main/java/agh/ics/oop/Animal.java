@@ -8,8 +8,8 @@ public class Animal implements Comparable<Animal>, IMapElement {
 
     private MapDirection orientation;
     private Vector2d position;
-    private IWorldMap map;
-    private List<IPositionChangeObserver> observerList;
+    private final IWorldMap map;
+    private final List<IPositionChangeObserver> observerList;
     public Animal (IWorldMap map){
         this(map, new Vector2d(2,2));
     }
@@ -20,7 +20,6 @@ public class Animal implements Comparable<Animal>, IMapElement {
         this.position = initialPosition;
         this.map = map;
         this.observerList = new ArrayList<>();
-        //this.addObserver(map);
     }
 
 

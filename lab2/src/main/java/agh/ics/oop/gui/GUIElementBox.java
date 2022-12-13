@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
 public class GUIElementBox {
 
     static final int VIEW_SIZE = 30;
-    public final VBox vBox;
+    private final VBox vBox;
 
     public GUIElementBox(IMapElement element) throws FileNotFoundException {
         this.vBox = new VBox();

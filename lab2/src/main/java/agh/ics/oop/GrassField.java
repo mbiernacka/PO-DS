@@ -17,9 +17,6 @@ public class GrassField extends AbstractWorldMap {
         int max = (int)(Math.sqrt(10*grassAmount));
 
         for (int i = 0; i < grassAmount; i++){
-
-            //zamiast losowania zrobic liste pozycji (0,0),(1,0)..(n,n) i collections.shuffle i wybrac np x pierwszych
-            //tak jest lepiej, bo z randomem jest niedeterministyczny
             int x = (int) ((Math.random() * (max - min + 1)) + min);
             int y = (int) ((Math.random() * (max - min + 1)) + min);
             Vector2d newGrassPosition = new Vector2d(x,y);
@@ -54,31 +51,11 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Vector2d calculateLowerBound(){
-//        Vector2d lowerBound = grassMap.get(grassMap.keySet().toArray()[0]).getPosition();
-//        for (Vector2d position: animalMap.keySet()){
-//            lowerBound = lowerBound.lowerLeft(position);
-//        }
-//
-//        for (Vector2d position: grassMap.keySet()){
-//            lowerBound = lowerBound.lowerLeft(position);
-//        }
-//
-//        return lowerBound;
         return this.mapBoundary.getLowerLeft();
     }
 
     @Override
     public Vector2d calculateUpperBound(){
-//        Vector2d upperBound = grassMap.get(grassMap.keySet().toArray()[0]).getPosition();
-//
-//        for (Vector2d position: animalMap.keySet()){
-//            upperBound = upperBound.upperRight(position);
-//        }
-//
-//        for (Vector2d position: grassMap.keySet()){
-//            upperBound = upperBound.upperRight(position);
-//        }
-//        return upperBound;
         return this.mapBoundary.getUpperRight();
     }
 

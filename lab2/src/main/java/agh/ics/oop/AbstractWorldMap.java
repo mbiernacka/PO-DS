@@ -17,10 +17,8 @@ public abstract class AbstractWorldMap implements IWorldMap{
                 throw new IllegalArgumentException("You cannot move to the " + position + " position");
             }
             this.animalMap.put(position, animal);
-
             animal.addObserver(this);
             animal.setOrder(this.animalMap.size());
-            //return true;
     }
 
     public String toString(){
