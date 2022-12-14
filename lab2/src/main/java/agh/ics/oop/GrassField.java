@@ -6,14 +6,13 @@ import java.lang.Math;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GrassField extends AbstractWorldMap implements IPositionChangeObserver{
-
-    //private List<Grass> grassList;
+public class GrassField extends AbstractWorldMap {
     private HashMap<Vector2d, Grass> grassMap;
+    public final MapBoundary mapBoundary;
 
     public GrassField(int grassAmount){
-        //this.grassList = new ArrayList<>();
         this.grassMap = new HashMap<>();
+        this.mapBoundary = new MapBoundary();
         int min = 0;
         int max = (int)(Math.sqrt(10*grassAmount));
 
@@ -32,6 +31,7 @@ public class GrassField extends AbstractWorldMap implements IPositionChangeObser
                 }
             if(repeats == 0){
                 grassMap.put(newGrassPosition, new Grass(newGrassPosition));
+                mapBoundary.place(newGrassPosition);
             }
         }
     }
@@ -53,31 +53,39 @@ public class GrassField extends AbstractWorldMap implements IPositionChangeObser
     };
 
     @Override
-    protected Vector2d calculateLowerBound(){
-        //Vector2d lowerBound = grassMap.get(0).getPosition();
-        Vector2d lowerBound = grassMap.get(grassMap.keySet().toArray()[0]).getPosition();
-        for (Vector2d position: animalMap.keySet()){
-            lowerBound = lowerBound.lowerLeft(position);
-        }
-
-        for (Vector2d position: grassMap.keySet()){
-            lowerBound = lowerBound.lowerLeft(position);
-        }
-
-        return lowerBound;
+    public Vector2d calculateLowerBound(){
+//        Vector2d lowerBound = grassMap.get(grassMap.keySet().toArray()[0]).getPosition();
+//        for (Vector2d position: animalMap.keySet()){
+//            lowerBound = lowerBound.lowerLeft(position);
+//        }
+//
+//        for (Vector2d position: grassMap.keySet()){
+//            lowerBound = lowerBound.lowerLeft(position);
+//        }
+//
+//        return lowerBound;
+        return this.mapBoundary.getLowerLeft();
     }
 
     @Override
-    protected Vector2d calculateUpperBound(){
-        Vector2d upperBound = grassMap.get(grassMap.keySet().toArray()[0]).getPosition();
+    public Vector2d calculateUpperBound(){
+//        Vector2d upperBound = grassMap.get(grassMap.keySet().toArray()[0]).getPosition();
+//
+//        for (Vector2d position: animalMap.keySet()){
+//            upperBound = upperBound.upperRight(position);
+//        }
+//
+//        for (Vector2d position: grassMap.keySet()){
+//            upperBound = upperBound.upperRight(position);
+//        }
+//        return upperBound;
+        return this.mapBoundary.getUpperRight();
+    }
 
-        for (Vector2d position: animalMap.keySet()){
-            upperBound = upperBound.upperRight(position);
-        }
-
-        for (Vector2d position: grassMap.keySet()){
-            upperBound = upperBound.upperRight(position);
-        }
-        return upperBound;
+    @Override
+    public boolean place(Animal animal){
+        super.place(animal);
+        mapBoundary.place(animal.getPosition());
+        return true;
     }
 }
