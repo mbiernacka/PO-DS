@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-public class Grass {
+public class Grass implements IMapElement{
 
     private final Vector2d position;
 
@@ -12,8 +12,16 @@ public class Grass {
         return this.position;
     }
 
+    public String getTexture(){
+        return "src/main/resources/grass.png";
+    }
+
     @Override
     public String toString(){
         return "*";
+    }
+
+    public String getLabel(){
+        return "Grass";
     }
 }

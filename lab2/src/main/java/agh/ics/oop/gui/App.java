@@ -1,102 +1,137 @@
 package agh.ics.oop.gui;
 import agh.ics.oop.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-public class App extends Application {
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class App extends Application implements IAppObserver {
 
     private AbstractWorldMap map;
+    private final GridPane gridPane = new GridPane();
+    private final int CONSTRAINTS = 55;
+    private final int SQUARESIZE = 50;
+    private SimulationEngine engine;
+    private final static int moveDelay = 300;
 
-    public void start(Stage primaryStage){
-        GridPane gridPane = new GridPane();
-        gridPane.setGridLinesVisible(true);
+    public void start(Stage primaryStage) throws FileNotFoundException {
+
+        TextField moves = new TextField();
+        Button start = new Button("Start");
+        VBox top = new VBox(moves, start);
+        VBox main = new VBox(top, gridPane);
+        HBox body = new HBox(main);
+
+        start.setOnAction(click -> {
+            String[] args = moves.getText().split(" ");
+            MoveDirection[] directions = new OptionsParser().parse(args);
+            engine.setDirections(directions);
+            Thread thread = new Thread(engine);
+            thread.start();
+        });
+
+        newGridPane();
+        Scene scene = new Scene(body, 800, 800);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void newGridPane() throws FileNotFoundException {
+        this.gridPane.setGridLinesVisible(false);
+        this.gridPane.getColumnConstraints().clear();
+        this.gridPane.getRowConstraints().clear();
+
         Vector2d lowerBound = map.calculateLowerBound();
         Vector2d upperBound = map.calculateUpperBound();
-        int m = 1;
-        int n = 1;
-        final int squareSize = 20;
 
-        // y label
-        for(int y = upperBound.y; y >= lowerBound.y; y--){
-            gridPane.getRowConstraints().add(new RowConstraints(20));
+        gridPane.setGridLinesVisible(true);
+
+        drawXLabel(lowerBound, upperBound, gridPane);
+        drawYLabel(lowerBound, upperBound, gridPane);
+        drawXYLabel(gridPane);
+        drawObjects(lowerBound, upperBound, gridPane);
+    }
+
+    public void drawYLabel(Vector2d lowerBound, Vector2d upperBound, GridPane gridPane) {
+        int m = 1;
+        for (int y = upperBound.y; y >= lowerBound.y; y--) {
+            gridPane.getRowConstraints().add(new RowConstraints(CONSTRAINTS));
             Label label = new Label(Integer.toString(y));
-            label.setMinHeight(squareSize);
-            label.setMinWidth(squareSize);
+            label.setMinHeight(SQUARESIZE);
+            label.setMinWidth(SQUARESIZE);
             label.setAlignment(Pos.CENTER);
             gridPane.add(label, 0, m, 1, 1);
             GridPane.setHalignment(label, HPos.CENTER);
             m++;
         }
-
-        // x label
-        for(int x = lowerBound.x; x <= upperBound.x; x++){
-            gridPane.getColumnConstraints().add(new ColumnConstraints(20));
-            Label label = new Label(Integer.toString(x));
-            label.setMinHeight(squareSize);
-            label.setMinWidth(squareSize);
-            label.setAlignment(Pos.CENTER);
-            gridPane.add(label, n, 0, 1, 1);
-            GridPane.setHalignment(label, HPos.CENTER);
-            n++;
-        }
-
-        //add "x/y"
-        Label labelXY = new Label("y/x");
-        gridPane.add(labelXY, 0,0);
-        GridPane.setHalignment(labelXY, HPos.CENTER);
-
-
-        //add objects
-        int w =1;
-        for(int i = upperBound.y; i >= lowerBound.y; i--){
-            int p =1;
-            for (int j = lowerBound.x; j <= upperBound.x; j++){
-                Label labelObject = new Label(drawObject(new Vector2d(j, i)));
-                gridPane.add(labelObject,p,w);
-                GridPane.setHalignment(labelObject, HPos.CENTER);
-                GridPane.setHalignment(labelObject, HPos.CENTER);
-                p++;
-            }
-            w++;
-        }
-
-        Scene scene = new Scene(gridPane, 300, 300);
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
+        public void drawXLabel(Vector2d lowerBound, Vector2d upperBound, GridPane gridPane) {
+            int n = 1;
+            for (int x = lowerBound.x; x <= upperBound.x; x++) {
+                gridPane.getColumnConstraints().add(new ColumnConstraints(CONSTRAINTS));
+                Label label = new Label(Integer.toString(x));
+                label.setMinHeight(SQUARESIZE);
+                label.setMinWidth(SQUARESIZE);
+                label.setAlignment(Pos.CENTER);
+                gridPane.add(label, n, 0, 1, 1);
+                GridPane.setHalignment(label, HPos.CENTER);
+                n++;
+            }
+        }
 
-    //draw objects
-    private String drawObject(Vector2d currentPosition) {
-        String result = null;
-        if (this.map.isOccupied(currentPosition)) {
-            Object object = this.map.objectAt(currentPosition);
-            if (object != null) {
-                result = object.toString();
+        public void drawXYLabel( GridPane gridPane) {
+            Label labelXY = new Label("y/x");
+            gridPane.add(labelXY, 0, 0);
+            GridPane.setHalignment(labelXY, HPos.CENTER);
+        }
+
+        public void drawObjects(Vector2d lowerBound, Vector2d upperBound, GridPane gridPane) throws FileNotFoundException {
+            int w = 1;
+            for (int i = upperBound.y; i >= lowerBound.y; i--) {
+                int p = 1;
+                for (int j = lowerBound.x; j <= upperBound.x; j++) {
+                    if (this.map.isOccupied(new Vector2d(j, i))) {
+                        IMapElement object = (IMapElement) this.map.objectAt(new Vector2d(j, i));
+                        if (object != null) {
+                            GUIElementBox element = new GUIElementBox(object);
+                            gridPane.add(element.getvBox(), p, w);
+                            GridPane.setHalignment(element.getvBox(), HPos.CENTER);
+                            GridPane.setHalignment(element.getvBox(), HPos.CENTER);
+                        }
+                    }
+                    p++;
+                }
+                w++;
             }
-                return result;
-            }
-            return null;
         }
 
     public void init(){
         this.map = new GrassField(10);
-        String[] args = getParameters().getRaw().toArray(new String[0]);
-        MoveDirection[] directions = new OptionsParser().parse(args);
-        Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
-        SimulationEngine engine = new SimulationEngine(directions, map, positions);
-        engine.run();
+        Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4), new Vector2d(5,7)};
+        this.engine = new SimulationEngine(map, positions);
+        engine.setDelay(moveDelay);
+        engine.addObserver(this);
+
+    }
+    public void positionAppChanged(){
+        Platform.runLater(() -> {
+            gridPane.getChildren().clear();
+            try {
+                newGridPane();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
-
-
-
-
